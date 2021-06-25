@@ -1,6 +1,8 @@
 import { Component } from "react";
+import { Link, Switch, Route } from "react-router-dom";
 import { fullMovieData } from "../../apiServices";
-
+import Cast from "./Cast";
+import Reviews from "./Reviews";
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
 export default class MovieDetailsPage extends Component {
@@ -11,6 +13,7 @@ export default class MovieDetailsPage extends Component {
     genres: [],
     poster_path: "",
     overview: "",
+    release_date: 0,
   };
 
   componentDidMount() {
@@ -29,20 +32,37 @@ export default class MovieDetailsPage extends Component {
   render() {
     return (
       <div className="fullMovieDataContainer">
-        <div className="imageContainer">
+        <div className="MovieDataContainer">
           <img
             className="poster"
             src={IMAGE_URL + this.state.poster_path}
             alt=""
           />
+          <div>
+            <h2>{`${this.state.title} (${new Date(
+              this.state.release_date
+            ).getFullYear()}) `}</h2>
+            <p>User score:{this.state.vote_average * 10}%</p>
+            <h4>Overview</h4>
+            <p>{this.state.overview}</p>
+            <h4>Genres</h4>
+            <p> {this.state.genres.map((genre) => genre.name).join(" ")}</p>
+          </div>
         </div>
-        <div className="MovieDataContainer">
-          <h2>{this.state.title}</h2>
-          <p>User score:{this.state.vote_average * 10}%</p>
-          <h4>Overview</h4>
-          <p>{this.state.overview}</p>
-          <h4>Genres</h4>
-          <p> {this.state.genres.map((genre) => genre.name).join(" ")}</p>
+        <div>
+          <p>Additional information</p>
+          <ul>
+            <li>
+              <Link to={`/movies/${this.state.id}/cast`}>Cast</Link>
+            </li>
+            <li>
+              <Link to={`/movies/${this.state.id}/reviews`}>Reviews</Link>
+            </li>
+          </ul>
+          <Switch>
+            <Route exact path="/movies/:movieId/cast" component={Cast} />
+            <Route exact path="/movies/:movieId/reviews" component={Reviews} />
+          </Switch>
         </div>
       </div>
     );

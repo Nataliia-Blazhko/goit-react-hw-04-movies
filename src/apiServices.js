@@ -20,7 +20,6 @@ export const trending = () =>
   axios
     .get(`${BASE_URL}trending/movie/day?api_key=${API_KEY}`)
     .then(function (response) {
-      //   console.log(response);
       return response.data;
     });
 
@@ -28,6 +27,14 @@ export const fullMovieData = (movieId) =>
   axios
     .get(`${BASE_URL}movie/${movieId}?api_key=${API_KEY}`)
     .then(function (response) {
-      console.log(response);
+      return response.data;
+    });
+
+export const searchMovies = (query, page = 1) =>
+  axios
+    .get(
+      `${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}&page=${page}`
+    )
+    .then(function (response) {
       return response.data;
     });
