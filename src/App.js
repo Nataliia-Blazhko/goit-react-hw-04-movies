@@ -26,7 +26,6 @@ function App() {
             </NavLink>
           </li>
         </ul>
-
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/movies" component={MoviesPage} />

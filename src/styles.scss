@@ -1,5 +1,23 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+h4, h5, p, img, li, a, h2, button{
+  margin-bottom: 10px;
+}
+li{
+  list-style: circle;
+}
+
+img{
+  margin: 0 5px;
+}
+
 .NavLinks {
-  list-style: none;
+  // list-style: none;
+  box-shadow: 4px 0 6px -2px grey;
+  line-height: 40px;
 }
 
 .NavLinksItem {

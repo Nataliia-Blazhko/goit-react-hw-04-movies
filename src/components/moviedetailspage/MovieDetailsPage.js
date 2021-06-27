@@ -1,8 +1,8 @@
-import { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { Link, Switch, Route } from "react-router-dom";
 import { fullMovieData } from "../../apiServices";
-import Cast from "./Cast";
-import Reviews from "./Reviews";
+const Cast = React.lazy(() => import("./Cast"));
+const Reviews = React.lazy(() => import("./Reviews"));
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
 export default class MovieDetailsPage extends Component {
@@ -18,7 +18,7 @@ export default class MovieDetailsPage extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    fullMovieData(movieId).then((data) => {
+    fullMovieData(movieId).then(data => {
       this.setState({
         id: data.id,
         title: data.title,
@@ -29,9 +29,15 @@ export default class MovieDetailsPage extends Component {
       });
     });
   }
+
+  goBack = () => {
+    this.props.history.goBack();
+  };
+
   render() {
     return (
       <div className="fullMovieDataContainer">
+        <button onClick={this.goBack}>Go Back</button>
         <div className="MovieDataContainer">
           <img
             className="poster"
@@ -39,17 +45,16 @@ export default class MovieDetailsPage extends Component {
             alt=""
           />
           <div>
-            <h2>{`${this.state.title} (${new Date(
-              this.state.release_date
-            ).getFullYear()}) `}</h2>
+            <h2>{this.state.title}</h2>
             <p>User score:{this.state.vote_average * 10}%</p>
             <h4>Overview</h4>
             <p>{this.state.overview}</p>
             <h4>Genres</h4>
-            <p> {this.state.genres.map((genre) => genre.name).join(" ")}</p>
+            <p> {this.state.genres.map(genre => genre.name).join(" ")}</p>
           </div>
         </div>
         <div>
+          <hr />
           <p>Additional information</p>
           <ul>
             <li>
@@ -59,10 +64,17 @@ export default class MovieDetailsPage extends Component {
               <Link to={`/movies/${this.state.id}/reviews`}>Reviews</Link>
             </li>
           </ul>
-          <Switch>
-            <Route exact path="/movies/:movieId/cast" component={Cast} />
-            <Route exact path="/movies/:movieId/reviews" component={Reviews} />
-          </Switch>
+          <hr />
+          <Suspense fallback={<div>Завантаження...</div>}>
+            <Switch>
+              <Route exact path="/movies/:movieId/cast" component={Cast} />
+              <Route
+                exact
+                path="/movies/:movieId/reviews"
+                component={Reviews}
+              />
+            </Switch>
+          </Suspense>
         </div>
       </div>
     );
