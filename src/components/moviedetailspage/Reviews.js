@@ -7,7 +7,7 @@ export default class Reviews extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    getReview(movieId).then(data => {
+    getReview(movieId).then((data) => {
       this.setState({
         reviews: data.results,
       });
@@ -15,18 +15,18 @@ export default class Reviews extends Component {
   }
   render() {
     return this.state.reviews.length ? (
-      <div>
+      <div className="reviewsContainer">
         <ul>
-          {this.state.reviews.map(review => (
+          {this.state.reviews.map((review) => (
             <li key={review.id}>
-              <h5>{review.author}</h5>
-              <p>{review.content}</p>
+              <h5 className="reviewAuthor">{review.author}</h5>
+              <p className="text">{review.content}</p>
             </li>
           ))}
         </ul>
       </div>
     ) : (
-      <p>We don't have any reviews for this movie.</p>
+      <p className="notification">We don't have any reviews for this movie.</p>
     );
   }
 }

@@ -16,12 +16,22 @@ function App() {
       <Router>
         <ul className="NavLinks">
           <li className="NavLinksItem">
-            <NavLink exact to="/">
+            <NavLink
+              exact
+              to="/"
+              className="link"
+              activeClassName="active-link"
+            >
               Home
             </NavLink>
           </li>
           <li className="NavLinksItem">
-            <NavLink exact to="/movies">
+            <NavLink
+              exact
+              to="/movies"
+              className="link"
+              activeClassName="active-link"
+            >
               Movies
             </NavLink>
           </li>

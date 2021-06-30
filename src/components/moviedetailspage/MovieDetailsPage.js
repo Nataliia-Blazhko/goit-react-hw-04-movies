@@ -18,7 +18,7 @@ export default class MovieDetailsPage extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    fullMovieData(movieId).then(data => {
+    fullMovieData(movieId).then((data) => {
       this.setState({
         id: data.id,
         title: data.title,
@@ -37,31 +37,38 @@ export default class MovieDetailsPage extends Component {
   render() {
     return (
       <div className="fullMovieDataContainer">
-        <button onClick={this.goBack}>Go Back</button>
-        <div className="MovieDataContainer">
+        <button onClick={this.props.history.goBack}> &#129044; Go Back</button>
+        <div className="MoviePosterContainer">
           <img
             className="poster"
             src={IMAGE_URL + this.state.poster_path}
             alt=""
           />
-          <div>
-            <h2>{this.state.title}</h2>
-            <p>User score:{this.state.vote_average * 10}%</p>
-            <h4>Overview</h4>
-            <p>{this.state.overview}</p>
-            <h4>Genres</h4>
-            <p> {this.state.genres.map(genre => genre.name).join(" ")}</p>
+          <div className="MovieDataContainer">
+            <h2 className="movieTitle">{this.state.title}</h2>
+            <p className="text">User score:{this.state.vote_average * 10}%</p>
+            <h4 className="subtitle">Overview</h4>
+            <p className="text">{this.state.overview}</p>
+            <h4 className="subtitle">Genres</h4>
+            <p className="text">
+              {" "}
+              {this.state.genres.map((genre) => genre.name).join(" ")}
+            </p>
           </div>
         </div>
         <div>
           <hr />
-          <p>Additional information</p>
-          <ul>
+          <p className="additionalInformation">Additional information</p>
+          <ul className="addInfoList">
             <li>
-              <Link to={`/movies/${this.state.id}/cast`}>Cast</Link>
+              <Link to={`/movies/${this.state.id}/cast`} replace>
+                Cast
+              </Link>
             </li>
             <li>
-              <Link to={`/movies/${this.state.id}/reviews`}>Reviews</Link>
+              <Link to={`/movies/${this.state.id}/reviews`} replace>
+                Reviews
+              </Link>
             </li>
           </ul>
           <hr />
