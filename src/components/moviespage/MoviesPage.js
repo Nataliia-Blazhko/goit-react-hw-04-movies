@@ -9,11 +9,44 @@ export class MoviesPage extends Component {
     movies: [],
   };
 
-  getMoviesList = async (e) => {
+  //google React.createRef()
+  queryInput = React.createRef();
+
+  async componentDidMount() {
+    //google this.props.location
+    const query = this.props.location.search;
+
+    //google URLSearchParams
+    const searchParams = new URLSearchParams(query);
+
+    if (searchParams.get("query")) {
+      const result = await searchMovies(
+        searchParams.get("query"),
+        this.state.page
+      );
+
+      this.setState({ movies: result.results });
+
+      //google URLSearchParams functions get, has..
+      this.queryInput.current.value =
+        searchParams.has("query") && searchParams.get("query");
+    }
+  }
+
+  getMoviesList = async e => {
     e.preventDefault();
-    const result = await searchMovies(this.state.query, this.state.page);
-    // console.log(await result);
-    this.setState({ movies: result.results });
+    if (this.state.query) {
+      const result = await searchMovies(this.state.query, this.state.page);
+      this.setState({ movies: result.results });
+
+      //google props.history.push
+      this.props.history.push({
+        pathname: this.props.location.pathname,
+        search: `query=${this.state.query}`,
+      });
+    } else {
+      this.setState({ movies: [] });
+    }
   };
 
   render() {
@@ -21,8 +54,10 @@ export class MoviesPage extends Component {
       <div>
         <form className="form" onSubmit={this.getMoviesList}>
           <input
+            //google react ref again
+            ref={this.queryInput}
             value={this.state.query}
-            onInput={(e) => this.setState({ query: e.target.value })}
+            onInput={e => this.setState({ query: e.target.value })}
             type="text"
             autoComplete="off"
             autoFocus
@@ -30,13 +65,15 @@ export class MoviesPage extends Component {
           />
           <button type="submit">Search</button>
         </form>
-        <ul className="MovieFindList">
-          {this.state.movies.map((movie) => (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-            </li>
-          ))}
-        </ul>
+        {this.state.movies && (
+          <ul className="MovieFindList">
+            {this.state.movies.map(movie => (
+              <li key={movie.id}>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }

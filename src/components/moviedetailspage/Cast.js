@@ -8,7 +8,7 @@ export default class Cast extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    getCast(movieId).then((data) => {
+    getCast(movieId).then(data => {
       this.setState({
         cast: data.cast,
       });
@@ -16,10 +16,10 @@ export default class Cast extends Component {
   }
 
   render() {
-    return this.state.cast.map((movieActors) => {
+    return this.state.cast.map(movieActors => {
       return (
         <div className="castContainer" key={movieActors.id}>
-          {movieActors.profile_path && (
+          {movieActors.profile_path != null && (
             <img
               className="actors"
               alt={movieActors.name}

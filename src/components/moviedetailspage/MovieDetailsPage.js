@@ -18,7 +18,7 @@ export default class MovieDetailsPage extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    fullMovieData(movieId).then((data) => {
+    fullMovieData(movieId).then(data => {
       this.setState({
         id: data.id,
         title: data.title,
@@ -39,11 +39,14 @@ export default class MovieDetailsPage extends Component {
       <div className="fullMovieDataContainer">
         <button onClick={this.props.history.goBack}> &#129044; Go Back</button>
         <div className="MoviePosterContainer">
-          <img
-            className="poster"
-            src={IMAGE_URL + this.state.poster_path}
-            alt=""
-          />
+          {this.state.poster_path && (
+            <img
+              className="poster"
+              src={IMAGE_URL + this.state.poster_path}
+              alt=""
+            />
+          )}
+
           <div className="MovieDataContainer">
             <h2 className="movieTitle">{this.state.title}</h2>
             <p className="text">User score:{this.state.vote_average * 10}%</p>
@@ -52,7 +55,7 @@ export default class MovieDetailsPage extends Component {
             <h4 className="subtitle">Genres</h4>
             <p className="text">
               {" "}
-              {this.state.genres.map((genre) => genre.name).join(" ")}
+              {this.state.genres.map(genre => genre.name).join(" ")}
             </p>
           </div>
         </div>
