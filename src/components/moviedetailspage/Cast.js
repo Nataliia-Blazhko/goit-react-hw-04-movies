@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { getCast } from "../../apiServices";
+import noPhoto from "../../images/noPhoto.png";
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 export default class Cast extends Component {
   state = {
@@ -8,7 +9,7 @@ export default class Cast extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    getCast(movieId).then(data => {
+    getCast(movieId).then((data) => {
       this.setState({
         cast: data.cast,
       });
@@ -16,17 +17,18 @@ export default class Cast extends Component {
   }
 
   render() {
-    return this.state.cast.map(movieActors => {
+    return this.state.cast.map((movieActors) => {
       return (
         <div className="castContainer" key={movieActors.id}>
-          {movieActors.profile_path != null && (
-            <img
-              className="actors"
-              alt={movieActors.name}
-              src={IMAGE_URL + movieActors.profile_path}
-            />
-          )}
-
+          <img
+            className="actors"
+            alt={movieActors.name}
+            src={
+              movieActors.profile_path
+                ? IMAGE_URL + movieActors.profile_path
+                : noPhoto
+            }
+          />
           <p className="actorsName">{movieActors.name}</p>
           <p className="actorsName">{movieActors.character}</p>
         </div>
