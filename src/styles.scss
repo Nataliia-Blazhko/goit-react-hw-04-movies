@@ -3,12 +3,8 @@
 }
 
 body {
-  background-image: linear-gradient(
-      rgba(11, 11, 11, 0.3),
-      rgba(11, 11, 11, 0.3)
-    ),
-    url(bg.jpg);
-  background-repeat: repeat, no-repeat;
+  background-image: url(bg1.jpg);
+  background-repeat: no-repeat;
   background-size: cover;
 }
 

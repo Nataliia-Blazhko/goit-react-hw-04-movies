@@ -9,14 +9,11 @@ export class MoviesPage extends Component {
     movies: [],
   };
 
-  //google React.createRef()
   queryInput = React.createRef();
 
   async componentDidMount() {
-    //google this.props.location
     const query = this.props.location.search;
 
-    //google URLSearchParams
     const searchParams = new URLSearchParams(query);
 
     if (searchParams.get("query")) {
@@ -27,19 +24,17 @@ export class MoviesPage extends Component {
 
       this.setState({ movies: result.results });
 
-      //google URLSearchParams functions get, has..
       this.queryInput.current.value =
         searchParams.has("query") && searchParams.get("query");
     }
   }
 
-  getMoviesList = async e => {
+  getMoviesList = async (e) => {
     e.preventDefault();
     if (this.state.query) {
       const result = await searchMovies(this.state.query, this.state.page);
       this.setState({ movies: result.results });
 
-      //google props.history.push
       this.props.history.push({
         pathname: this.props.location.pathname,
         search: `query=${this.state.query}`,
@@ -54,10 +49,9 @@ export class MoviesPage extends Component {
       <div>
         <form className="form" onSubmit={this.getMoviesList}>
           <input
-            //google react ref again
             ref={this.queryInput}
             value={this.state.query}
-            onInput={e => this.setState({ query: e.target.value })}
+            onInput={(e) => this.setState({ query: e.target.value })}
             type="text"
             autoComplete="off"
             autoFocus
@@ -67,7 +61,7 @@ export class MoviesPage extends Component {
         </form>
         {this.state.movies && (
           <ul className="MovieFindList">
-            {this.state.movies.map(movie => (
+            {this.state.movies.map((movie) => (
               <li key={movie.id}>
                 <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
               </li>
