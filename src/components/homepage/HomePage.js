@@ -8,7 +8,7 @@ export class HomePage extends Component {
   };
 
   componentDidMount() {
-    trending().then((data) => {
+    trending().then(data => {
       this.setState({ movies: data.results });
     });
   }
@@ -18,7 +18,7 @@ export class HomePage extends Component {
       <div className="homePageContainer">
         <h2 className="mainTitle">Trending today</h2>
         <ul className="MovieList">
-          {this.state.movies.map((movie) => {
+          {this.state.movies.map(movie => {
             return (
               <li key={movie.id} className="MovieListItem">
                 <Link to={`/movies/${movie.id}`}>{movie.title}</Link>

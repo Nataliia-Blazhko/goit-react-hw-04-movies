@@ -1,4 +1,4 @@
-import HomePage from "./components/homepage/HomePage";
+// import HomePage from "./components/homepage/HomePage";
 import {
   BrowserRouter as Router,
   NavLink,
@@ -6,9 +6,17 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import MoviesPage from "./components/moviespage/MoviesPage";
+// import MoviesPage from "./components/moviespage/MoviesPage";
 import "./styles.scss";
-import MovieDetailsPage from "./components/moviedetailspage/MovieDetailsPage";
+// import MovieDetailsPage from "./components/moviedetailspage/MovieDetailsPage";
+import React, { Suspense } from "react";
+const HomePage = React.lazy(() => import("./components/homepage/HomePage"));
+const MoviesPage = React.lazy(() =>
+  import("./components/moviespage/MoviesPage")
+);
+const MovieDetailsPage = React.lazy(() =>
+  import("./components/moviedetailspage/MovieDetailsPage")
+);
 
 function App() {
   return (
@@ -36,12 +44,14 @@ function App() {
             </NavLink>
           </li>
         </ul>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/movies" component={MoviesPage} />
-          <Route path="/movies/:movieId" component={MovieDetailsPage} />
-          <Redirect to="/" />
-        </Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/movies" component={MoviesPage} />
+            <Route path="/movies/:movieId" component={MovieDetailsPage} />
+            <Redirect to="/" />
+          </Switch>
+        </Suspense>
       </Router>
     </div>
   );

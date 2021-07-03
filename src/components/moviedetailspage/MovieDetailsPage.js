@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { Link, Switch, Route } from "react-router-dom";
 import { fullMovieData } from "../../apiServices";
+import noPoster from "../../images/noPoster.png";
 const Cast = React.lazy(() => import("./Cast"));
 const Reviews = React.lazy(() => import("./Reviews"));
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
@@ -37,15 +38,19 @@ export default class MovieDetailsPage extends Component {
   render() {
     return (
       <div className="fullMovieDataContainer">
-        <button onClick={this.props.history.goBack}> &#129044; Go Back</button>
+        <button onClick={this.props.history.goBack}> ← Go Back</button>
         <div className="MoviePosterContainer">
-          {this.state.poster_path && (
-            <img
-              className="poster"
-              src={IMAGE_URL + this.state.poster_path}
-              alt=""
-            />
-          )}
+          {/* {this.state.poster_path && ( */}
+          <img
+            className="poster"
+            src={
+              this.state.poster_path
+                ? IMAGE_URL + this.state.poster_path
+                : noPoster
+            }
+            alt=""
+          />
+          {/* )} */}
 
           <div className="MovieDataContainer">
             <h2 className="movieTitle">{this.state.title}</h2>
